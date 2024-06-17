@@ -62,9 +62,12 @@ def init(fastapi_app: FastAPI) -> None:
         assert img1.shape == img2.shape, f'invalid image, shape not match: {img1.shape} != {img2.shape}'
         diff = room.get('img_diff')
         if diff is None:
-            from pybind11_pixelmatch import pixelmatch
+            from pybind11_pixelmatch import pixelmatch, Options, Color
             diff = np.zeros(img1.shape, dtype=img1.dtype)
-            pixelmatch(img1, img2, output=diff)
+            options = Options()
+            options.diffColor = Color(0, 255, 0, 255)
+            options.diffColorAlt = Color(255, 0, 0, 255)
+            pixelmatch(img1, img2, output=diff, options=options)
             assert diff.shape == img2.shape
             room['img_diff'] = encode_as_dataurl(diff)
             room['img_diff:cv2'] = diff
