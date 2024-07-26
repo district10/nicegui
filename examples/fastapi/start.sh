@@ -10,7 +10,7 @@ if [ "$1" = "prod" ]; then
 elif [ "$1" = "dev" ]; then
     echo "Starting Uvicorn server in development mode..."
     # reload implies workers = 1
-    uvicorn main:app --reload --log-level debug --port 8000
+    uvicorn main:app --reload --log-level debug --port 8000 --host 0.0.0.0
 else
     echo "Invalid parameter. Use 'prod' or 'dev'."
     exit 1
